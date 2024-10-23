@@ -25,6 +25,17 @@ router.get("/add-new", (req, res) => {
     });
 });
 
+router.get("/:id", async (req, res) => {
+    const id = req.params.id;
+    const blog = await Blog.findById(id).populate("createdBy");
+    // console.log(blog);
+
+    return res.render("blog", {
+        user: req.user,
+        blog: blog,
+    });
+});
+
 // Route to handle blog post submission
 router.post("/", upload.single("coverImage"), async (req, res) => {
     if (!req.file) {
